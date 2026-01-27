@@ -1,0 +1,217 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.game-controls {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+}
+
+.input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+#numberInput {
+    padding: 15px;
+    border: 3px solid #ddd;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    width: 150px;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+#numberInput:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5a67d8;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #e53e3e;
+    color: white;
+    margin-left: 10px;
+}
+
+.btn-secondary:hover {
+    background: #c53030;
+    transform: translateY(-2px);
+}
+
+.message {
+    text-align: center;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.message.success {
+    background: #c6f6d5;
+    color: #22543d;
+    border: 2px solid #48bb78;
+}
+
+.message.info {
+    background: #bee3f8;
+    color: #2c5282;
+    border: 2px solid #4299e1;
+}
+
+.message.warning {
+    background: #fef5e7;
+    color: #744210;
+    border: 2px solid #ed8936;
+}
+
+.matrix-container {
+    margin-top: 30px;
+    overflow: auto;
+    max-height: 600px;
+    border: 2px solid #ddd;
+    border-radius: 15px;
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: white;
+}
+
+.matrix-table th {
+    background: #667eea;
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #5a67d8;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.matrix-table th:first-child {
+    background: #764ba2;
+    position: sticky;
+    left: 0;
+    z-index: 11;
+    min-width: 150px;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.matrix-table td {
+    padding: 10px 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+.matrix-table td:first-child {
+    background: #f8f9fa;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 15px;
+    position: sticky;
+    left: 0;
+    z-index: 9;
+    border-right: 2px solid #667eea;
+}
+
+.matrix-table .check-mark {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.matrix-table .cross-mark {
+    color: #6c757d;
+    font-size: 16px;
+}
+
+.matrix-table .secret-number {
+    background: #fff3cd;
+    font-weight: bold;
+    color: #856404;
+}
+
+.matrix-table .guessed-number {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.empty-state {
+    text-align: center;
+    color: #999;
+    font-size: 1.2rem;
+    margin: 50px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
