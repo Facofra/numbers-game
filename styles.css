@@ -155,7 +155,7 @@ h1 {
     position: sticky;
     left: 0;
     z-index: 11;
-    min-width: 150px;
+    min-width: 180px;
     text-align: left;
     padding-left: 15px;
 }
@@ -176,6 +176,68 @@ h1 {
     left: 0;
     z-index: 9;
     border-right: 2px solid #667eea;
+    position: relative;
+    min-width: 180px;
+}
+
+.category-name {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.info-icon {
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    user-select: none;
+    margin-left: 4px;
+}
+
+.info-icon:hover {
+    opacity: 1;
+}
+
+.tooltip {
+    position: fixed;
+    background: #333;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    max-width: 300px;
+    z-index: 999999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.tooltip.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.tooltip.pinned {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    border: 2px solid #667eea;
+}
+
+.tooltip-content {
+    line-height: 1.4;
+}
+
+.tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.tooltip.pinned .tooltip-arrow {
+    border-color: inherit;
 }
 
 .matrix-table .check-mark {

@@ -1,39 +1,70 @@
 class NumberGuessingGame {
     constructor() {
         this.categories = {
-            'perfecto': [6, 28],
-            'cubo_perfecto': [1, 8, 27, 64],
-            'divisor': [],
-            'altamente_compuesto': [1, 2, 4, 6, 12, 24, 36, 48, 60],
-            'pronic_number': [2, 6, 12, 20, 30, 42, 56, 72, 90],
-            'fibonacci': [1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
-            'cuadrado_perfecto': [1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
-            'multiplo_9': [9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99],
-            'multiplo_8': [8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96],
-            'triangular': [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91],
-            'multiplo_7': [7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98],
-            'multiplo_6': [6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 96],
-            'palindrome': [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33, 44, 55, 66, 77, 88, 99],
-            'numero_feliz': [10, 13, 19, 23, 28, 31, 32, 44, 49, 68, 70, 79, 82, 86, 91, 94, 97, 100],
-            'multiplo_5': [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
-            'abundante': [12, 18, 20, 24, 30, 36, 40, 42, 48, 54, 56, 60, 66, 70, 72, 78, 80, 84, 88, 90, 96, 100],
-            'harshad': [10, 12, 18, 20, 21, 24, 27, 30, 36, 40, 42, 45, 48, 50, 54, 60, 63, 70, 72, 80, 81, 84, 90, 100],
-            'primo': [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
-            'multiplo_4': [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100],
-            'multiplo_3': [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99],
-            'numero_regular': [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 25, 27, 30, 32, 36, 40, 45, 48, 50, 54, 60, 64, 72, 75, 80, 81, 90, 96, 100],
-            'semi_primo': [4, 6, 9, 10, 14, 15, 21, 22, 25, 26, 33, 34, 35, 38, 39, 46, 49, 51, 55, 57, 58, 62, 65, 69, 74, 77, 82, 85, 86, 87, 91, 93, 94, 95],
-            'par': [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100],
-            'impar': [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99],
-            'compuesto': [4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81, 82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100],
-            'deficiente': [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 29, 31, 32, 33, 34, 35, 37, 38, 39, 41, 43, 44, 45, 46, 47, 49, 50, 51, 52, 53, 55, 57, 58, 59, 61, 62, 63, 64, 65, 67, 68, 69, 71, 73, 74, 75, 76, 77, 79, 81, 82, 83, 85, 86, 87, 89, 91, 92, 93, 94, 95, 97, 98, 99],
-            'natural': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
+            'Perfecto': [6, 28],
+            'Cubo perfecto': [1, 8, 27, 64],
+            'Divisor': [],
+            'Altamente compuesto': [1, 2, 4, 6, 12, 24, 36, 48, 60],
+            'Prónico': [2, 6, 12, 20, 30, 42, 56, 72, 90],
+            'Fibonacci': [1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
+            'Cuadrado perfecto': [1, 4, 9, 16, 25, 36, 49, 64, 81, 100],
+            'Multiplo de 9': [9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99],
+            'Multiplo de 8': [8, 16, 24, 32, 40, 48, 56, 64, 72, 80, 88, 96],
+            'Triangular': [1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91],
+            'Multiplo de 7': [7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91, 98],
+            'Multiplo de 6': [6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84, 90, 96],
+            'Palindrome': [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33, 44, 55, 66, 77, 88, 99],
+            'Numero feliz': [10, 13, 19, 23, 28, 31, 32, 44, 49, 68, 70, 79, 82, 86, 91, 94, 97, 100],
+            'Multiplo de 5': [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+            'Abundante': [12, 18, 20, 24, 30, 36, 40, 42, 48, 54, 56, 60, 66, 70, 72, 78, 80, 84, 88, 90, 96, 100],
+            'Harshad': [10, 12, 18, 20, 21, 24, 27, 30, 36, 40, 42, 45, 48, 50, 54, 60, 63, 70, 72, 80, 81, 84, 90, 100],
+            'Primo': [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97],
+            'Multiplo de 4': [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100],
+            'Multiplo de 3': [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48, 51, 54, 57, 60, 63, 66, 69, 72, 75, 78, 81, 84, 87, 90, 93, 96, 99],
+            'Numero regular': [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 25, 27, 30, 32, 36, 40, 45, 48, 50, 54, 60, 64, 72, 75, 80, 81, 90, 96, 100],
+            'Semi primo': [4, 6, 9, 10, 14, 15, 21, 22, 25, 26, 33, 34, 35, 38, 39, 46, 49, 51, 55, 57, 58, 62, 65, 69, 74, 77, 82, 85, 86, 87, 91, 93, 94, 95],
+            'Par': [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100],
+            'Impar': [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99],
+            'Compuesto': [4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81, 82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100],
+            'Deficiente': [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 21, 22, 23, 25, 26, 27, 29, 31, 32, 33, 34, 35, 37, 38, 39, 41, 43, 44, 45, 46, 47, 49, 50, 51, 52, 53, 55, 57, 58, 59, 61, 62, 63, 64, 65, 67, 68, 69, 71, 73, 74, 75, 76, 77, 79, 81, 82, 83, 85, 86, 87, 89, 91, 92, 93, 94, 95, 97, 98, 99],
+            'Natural': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100]
+        };
+
+        this.categoryDescriptions = {
+            'Perfecto': 'Un número perfecto es igual a la suma de todos sus divisores propios (excluyendo el número mismo).<br><br>Ejemplo: 6 → divisores propios: 1, 2, 3 → suma: 1+2+3 = 6',
+            'Cubo perfecto': 'Un número que es el cubo de un entero (n³).<br><br>Ejemplo: 27 → 3³ = 3×3×3 = 27',
+            'Divisor': 'Números que dividen exactamente al número secreto sin dejar residuo.<br><br>Ejemplo: Si el número secreto fuera 24, entonces 8 es divisor porque 24÷8 = 3',
+            'Altamente compuesto': 'Un número con más divisores que cualquier número positivo menor que él.<br><br>Ejemplo: 12 → tiene 6 divisores (1,2,3,4,6,12), más que cualquier número menor',
+            'Prónico': 'Un número que es el producto de dos enteros consecutivos (n × (n+1)).<br><br>Ejemplo: 20 → 4×5 = 20 (4 y 5 son consecutivos)',
+            'Fibonacci': 'Números de la famosa secuencia donde cada término es la suma de los dos anteriores.<br><br>Ejemplo: 13 → en la secuencia: 1,1,2,3,5,8,13... donde 13 = 5+8',
+            'Cuadrado perfecto': 'Un número que es el cuadrado de un entero (n²).<br><br>Ejemplo: 49 → 7² = 7×7 = 49',
+            'Multiplo de 9': 'Números divisibles por 9.<br><br>Ejemplo: 54 → 54÷9 = 6 (exacto)',
+            'Multiplo de 8': 'Números divisibles por 8.<br><br>Ejemplo: 56 → 56÷8 = 7 (exacto)',
+            'Triangular': 'Un número triangular representa la suma de los primeros n números enteros consecutivos (n × (n+1) / 2).<br><br>Ejemplo: 15 → suma de 1+2+3+4+5 = 15',
+            'Multiplo de 7': 'Números divisibles por 7.<br><br>Ejemplo: 42 → 42÷7 = 6 (exacto)',
+            'Multiplo de 6': 'Números divisibles por 6.<br><br>Ejemplo: 36 → 36÷6 = 6 (exacto)',
+            'Palindrome': 'Números que se leen igual de izquierda a derecha y de derecha a izquierda.<br><br>Ejemplo: 77 → se lee igual en ambas direcciones',
+            'Numero feliz': 'Un número que eventualmente llega a 1 cuando se reemplaza repetidamente por la suma de los cuadrados de sus dígitos.<br><br>Ejemplo: 19 → 1²+9²=82 → 8²+2²=68 → 6²+8²=100 → 1²+0²+0²=1',
+            'Multiplo de 5': 'Números divisibles por 5.<br><br>Ejemplo: 85 → 85÷5 = 17 (exacto)',
+            'Abundante': 'Un número menor que la suma de todos sus divisores propios.<br><br>Ejemplo: 18 → divisores propios: 1,2,3,6,9 → suma: 21 > 18',
+            'Harshad': 'Un número divisible por la suma de sus dígitos.<br><br>Ejemplo: 84 → suma de dígitos: 8+4=12 → 84÷12 = 7 (exacto)',
+            'Primo': 'Un número natural mayor que 1 que solo tiene dos divisores: 1 y él mismo.<br><br>Ejemplo: 37 → solo es divisible por 1 y 37',
+            'Multiplo de 4': 'Números divisibles por 4.<br><br>Ejemplo: 76 → 76÷4 = 19 (exacto)',
+            'Multiplo de 3': 'Números divisibles por 3.<br><br>Ejemplo: 63 → 63÷3 = 21 (exacto)',
+            'Numero regular': 'Un número cuyos únicos factores primos son 2, 3 y 5.<br><br>Ejemplo: 48 → 48 = 2⁴×3¹ (solo factores 2 y 3)',
+            'Semi primo': 'Un número que es el producto de exactamente dos números primos (no necesariamente distintos).<br><br>Ejemplo: 35 → 5×7 = 35 (producto de dos primos)',
+            'Par': 'Números divisibles por 2.<br><br>Ejemplo: 78 → 78÷2 = 39 (exacto)',
+            'Impar': 'Números no divisibles por 2.<br><br>Ejemplo: 73 → no es divisible por 2',
+            'Compuesto': 'Un número natural mayor que 1 que no es primo.<br><br>Ejemplo: 91 → 91 = 7×13 (tiene más divisores que 1 y él mismo)',
+            'Deficiente': 'Un número mayor que la suma de todos sus divisores propios.<br><br>Ejemplo: 17 → divisores propios: 1 → suma: 1 < 17',
+            'Natural': 'Números enteros positivos (1, 2, 3, 4, ...).<br><br>Ejemplo: 95 → es un número entero positivo',
         };
 
         this.secretNumber = this.generateSecretNumber();
         this.guessedNumbers = [];
         this.adjacencyMatrix = {};
         this.gameWon = false;
+        this.pinnedTooltip = null;
 
         this.initializeDivisorCategory();
         this.initializeEventListeners();
@@ -45,10 +76,10 @@ class NumberGuessingGame {
     }
 
     initializeDivisorCategory() {
-        this.categories.divisor = [];
+        this.categories.Divisor = [];
         for (let n = 1; n <= 100; n++) {
             if (this.secretNumber % n === 0) {
-                this.categories.divisor.push(n);
+                this.categories.Divisor.push(n);
             }
         }
         this.adjacencyMatrix[this.secretNumber] = {};
@@ -188,7 +219,11 @@ class NumberGuessingGame {
         // Body
         html += '<tbody>';
         categories.forEach(category => {
-            html += `<tr><td>${category}</td>`;
+            const description = this.categoryDescriptions[category] || 'Descripción no disponible';
+            html += `<tr><td>
+                <span class="category-name">${category}</span>
+                <span class="info-icon" data-category="${category}" data-description="${description.replace(/"/g, '&quot;')}">ℹ️</span>
+            </td>`;
             numbers.forEach(num => {
                 const value = this.adjacencyMatrix[num][category];
                 const symbol = value ? '<span class="check-mark">✔</span>' : '<span class="cross-mark">·</span>';
@@ -201,6 +236,118 @@ class NumberGuessingGame {
 
         html += '</table>';
         container.innerHTML = html;
+        
+        // Crear tooltips fuera del contenedor de la tabla
+        categories.forEach(category => {
+            const description = this.categoryDescriptions[category] || 'Descripción no disponible';
+            const tooltipElement = document.createElement('div');
+            tooltipElement.className = 'tooltip';
+            tooltipElement.id = `tooltip-${category.replace(/\s+/g, '-')}`;
+            tooltipElement.innerHTML = `<div class="tooltip-content">${description}</div>`;
+            document.body.appendChild(tooltipElement);
+        });
+        
+        this.initializeTooltips();
+    }
+
+    initializeTooltips() {
+        const infoIcons = document.querySelectorAll('.info-icon');
+        
+        // Cerrar tooltip al hacer click fuera
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.info-icon') && !e.target.closest('.tooltip')) {
+                if (this.pinnedTooltip) {
+                    this.pinnedTooltip.classList.remove('show', 'pinned');
+                    this.pinnedTooltip = null;
+                }
+            }
+        });
+        
+        infoIcons.forEach(icon => {
+            const category = icon.dataset.category;
+            const tooltipId = `tooltip-${category.replace(/\s+/g, '-')}`;
+            const tooltip = document.getElementById(tooltipId);
+            
+            if (!tooltip) return;
+            
+            // Función para posicionar el tooltip
+            const positionTooltip = (show = false) => {
+                if (show) {
+                    const iconRect = icon.getBoundingClientRect();
+                    const tooltipRect = tooltip.getBoundingClientRect();
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+                    
+                    let left = iconRect.right + 10;
+                    let top = iconRect.top + (iconRect.height / 2) - (tooltipRect.height / 2);
+                    
+                    // Ajustar si se sale por la derecha
+                    if (left + tooltipRect.width > viewportWidth - 20) {
+                        left = iconRect.left - tooltipRect.width - 10;
+                    }
+                    
+                    // Ajustar si se sale por arriba o abajo
+                    if (top < 20) top = 20;
+                    if (top + tooltipRect.height > viewportHeight - 20) {
+                        top = viewportHeight - tooltipRect.height - 20;
+                    }
+                    
+                    tooltip.style.left = `${left}px`;
+                    tooltip.style.top = `${top}px`;
+                }
+            };
+            
+            // Hover events
+            icon.addEventListener('mouseenter', () => {
+                if (this.pinnedTooltip !== tooltip) {
+                    tooltip.classList.add('show');
+                    positionTooltip(true);
+                }
+            });
+            
+            icon.addEventListener('mouseleave', () => {
+                if (!tooltip.classList.contains('pinned')) {
+                    tooltip.classList.remove('show');
+                }
+            });
+            
+            tooltip.addEventListener('mouseenter', () => {
+                if (!tooltip.classList.contains('pinned')) {
+                    tooltip.classList.add('show');
+                }
+            });
+            
+            tooltip.addEventListener('mouseleave', () => {
+                if (!tooltip.classList.contains('pinned')) {
+                    tooltip.classList.remove('show');
+                }
+            });
+            
+            // Click event
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Cerrar tooltip previamente fijado
+                if (this.pinnedTooltip && this.pinnedTooltip !== tooltip) {
+                    this.pinnedTooltip.classList.remove('show', 'pinned');
+                }
+                
+                if (tooltip.classList.contains('pinned')) {
+                    // Si ya está fijado, desfijarlo
+                    tooltip.classList.remove('pinned');
+                    this.pinnedTooltip = null;
+                } else {
+                    // Fijarlo
+                    tooltip.classList.add('show', 'pinned');
+                    positionTooltip(true);
+                    this.pinnedTooltip = tooltip;
+                }
+            });
+            
+            tooltip.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        });
     }
 
     showMessage(text, type) {
@@ -219,6 +366,11 @@ class NumberGuessingGame {
         this.guessedNumbers = [];
         this.adjacencyMatrix = {};
         this.gameWon = false;
+        this.pinnedTooltip = null;
+        
+        // Limpiar tooltips existentes
+        const existingTooltips = document.querySelectorAll('.tooltip');
+        existingTooltips.forEach(tooltip => tooltip.remove());
         
         this.initializeDivisorCategory();
         
