@@ -74,6 +74,7 @@ class NumberGuessingGame {
         this.gameWon = false;
         this.pinnedTooltip = null;
         this.attemptCount = 0;
+        this.maxAttempts = 10;
 
         this.initializeDynamicCategories();
         this.initializeEventListeners();
@@ -204,6 +205,14 @@ class NumberGuessingGame {
         this.attemptCount++;
         this.updateAttemptCounter();
 
+        // Verificar si se alcanzó el límite de intentos
+        if (this.attemptCount >= this.maxAttempts) {
+            this.gameLost = true;
+            this.showMessage(`😞 ¡Perdiste! El número secreto era ${this.secretNumber}. Has alcanzado el límite de ${this.maxAttempts} intentos.`, 'warning');
+            input.value = '';
+            return;
+        }
+
         // Buscar categorías compartidas
         const sharedCategories = this.findSharedCategories(guess, this.secretNumber);
         
@@ -226,6 +235,11 @@ class NumberGuessingGame {
 
         if (this.gameWon) {
             this.showMessage('¡Ya ganaste! Usa "Nuevo Juego" para comenzar otra partida', 'info');
+            return false;
+        }
+
+        if (this.gameLost) {
+            this.showMessage('¡Juego terminado! Usa "Nuevo Juego" para comenzar otra partida', 'info');
             return false;
         }
 
@@ -438,7 +452,7 @@ class NumberGuessingGame {
     updateAttemptCounter() {
         const counterElement = document.getElementById('attemptCounter');
         if (counterElement) {
-            counterElement.textContent = `Intentos: ${this.attemptCount}`;
+            counterElement.textContent = `Intentos: ${this.attemptCount}/${this.maxAttempts}`;
         }
     }
 
@@ -458,6 +472,7 @@ class NumberGuessingGame {
         this.guessedNumbers = [];
         this.adjacencyMatrix = {};
         this.gameWon = false;
+        this.gameLost = false;
         this.pinnedTooltip = null;
         this.attemptCount = 0;
         
