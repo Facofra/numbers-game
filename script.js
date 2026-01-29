@@ -190,6 +190,7 @@ class NumberGuessingGame {
 
         if (guess === this.secretNumber) {
             this.gameWon = true;
+            this.updateGameStatus();
             this.showMessage(`🎉 ¡Felicitaciones! Adivinaste el número ${this.secretNumber}!`, 'success');
             this.updateMatrix();
             input.value = '';
@@ -208,6 +209,8 @@ class NumberGuessingGame {
         // Verificar si se alcanzó el límite de intentos
         if (this.attemptCount >= this.maxAttempts) {
             this.gameLost = true;
+            this.updateMatrix(); // Revelar el número secreto
+            this.updateGameStatus();
             this.showMessage(`😞 ¡Perdiste! El número secreto era ${this.secretNumber}. Has alcanzado el límite de ${this.maxAttempts} intentos.`, 'warning');
             input.value = '';
             return;
@@ -309,7 +312,7 @@ class NumberGuessingGame {
         // Header
         html += '<thead><tr><th>Categoría</th>';
         numbers.forEach(num => {
-            const displayNum = (num == this.secretNumber && !this.gameWon) ? 'x' : num;
+            const displayNum = (num == this.secretNumber && !this.gameWon && !this.gameLost) ? 'x' : num;
             const cellClass = num == this.secretNumber ? 'secret-number' : 'guessed-number';
             html += `<th class="${cellClass}">${displayNum}</th>`;
         });
@@ -456,6 +459,22 @@ class NumberGuessingGame {
         }
     }
 
+    updateGameStatus() {
+        const statusElement = document.getElementById('gameStatus');
+        if (statusElement) {
+            if (this.gameWon) {
+                statusElement.textContent = '¡Ganaste!';
+                statusElement.className = 'game-status won';
+            } else if (this.gameLost) {
+                statusElement.textContent = 'Perdiste';
+                statusElement.className = 'game-status lost';
+            } else {
+                statusElement.textContent = '';
+                statusElement.className = 'game-status';
+            }
+        }
+    }
+
     showMessage(text, type) {
         const messageEl = document.getElementById('message');
         messageEl.textContent = text;
@@ -487,6 +506,7 @@ class NumberGuessingGame {
         
         this.updateMatrix();
         this.updateAttemptCounter();
+        this.updateGameStatus();
         this.showMessage('¡Nuevo juego iniciado! Adivina el número secreto.', 'info');
     }
 }

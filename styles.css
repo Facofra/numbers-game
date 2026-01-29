@@ -50,12 +50,37 @@ h1 {
     margin-bottom: 20px;
 }
 
+.counter-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
 .attempt-counter {
-    text-align: center;
     font-size: 1.1rem;
     font-weight: bold;
     color: #667eea;
-    margin-top: 10px;
+}
+
+.game-status {
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.game-status.lost {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #dc3545;
+}
+
+.game-status.won {
+    color: #28a745;
+    background: #d4edda;
+    border: 1px solid #28a745;
 }
 
 #numberInput {
