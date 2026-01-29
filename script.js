@@ -194,6 +194,20 @@ class NumberGuessingGame {
 
     initializeDifficultyTooltips() {
         const difficultyInfoIcons = document.querySelectorAll('.difficulty-selection .info-icon');
+        const difficultyOptions = document.querySelectorAll('.difficulty-option');
+        
+        // Hacer clickeable toda la opción de dificultad
+        difficultyOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                // No activar si se hace click en el ícono de info
+                if (e.target.classList.contains('info-icon')) return;
+                
+                const radio = option.querySelector('input[type="radio"]');
+                if (radio) {
+                    radio.checked = true;
+                }
+            });
+        });
         
         difficultyInfoIcons.forEach(icon => {
             const difficulty = icon.dataset.difficulty;
@@ -251,8 +265,10 @@ class NumberGuessingGame {
         // Ocultar selección de dificultad y mostrar controles del juego
         const difficultySelection = document.getElementById('difficultySelection');
         const gameControls = document.getElementById('gameControls');
+        const matrixContainer = document.getElementById('matrixContainer');
         if (difficultySelection) difficultySelection.style.display = 'none';
         if (gameControls) gameControls.style.display = 'block';
+        if (matrixContainer) matrixContainer.style.display = 'block';
         
         this.initializeDynamicCategories();
         this.updateAttemptCounter();
@@ -280,15 +296,15 @@ class NumberGuessingGame {
         // Mostrar selección de dificultad y ocultar controles del juego
         const difficultySelection = document.getElementById('difficultySelection');
         const gameControls = document.getElementById('gameControls');
+        const matrixContainer = document.getElementById('matrixContainer');
         if (difficultySelection) difficultySelection.style.display = 'block';
         if (gameControls) gameControls.style.display = 'none';
+        if (matrixContainer) matrixContainer.style.display = 'none';
         
         const messageEl = document.getElementById('message');
         const numberInput = document.getElementById('numberInput');
-        const matrixContainer = document.getElementById('matrixContainer');
         if (messageEl) messageEl.style.display = 'none';
         if (numberInput) numberInput.value = '';
-        if (matrixContainer) matrixContainer.innerHTML = '';
     }
 
     updateDifficultyInfo() {
