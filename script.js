@@ -303,7 +303,10 @@ class NumberGuessingGame {
         
         const messageEl = document.getElementById('message');
         const numberInput = document.getElementById('numberInput');
-        if (messageEl) messageEl.style.display = 'none';
+        if (messageEl) {
+            messageEl.className = 'message message-hidden';
+            messageEl.innerHTML = '&nbsp;';
+        }
         if (numberInput) numberInput.value = '';
     }
 
@@ -676,10 +679,10 @@ class NumberGuessingGame {
         const messageEl = document.getElementById('message');
         messageEl.textContent = text;
         messageEl.className = `message ${type} fade-in`;
-        messageEl.style.display = 'block';
         
         setTimeout(() => {
-            messageEl.style.display = 'none';
+            messageEl.className = 'message message-hidden';
+            messageEl.innerHTML = '&nbsp;';
         }, 4000);
     }
 
