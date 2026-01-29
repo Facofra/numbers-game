@@ -73,9 +73,11 @@ class NumberGuessingGame {
         this.adjacencyMatrix = {};
         this.gameWon = false;
         this.pinnedTooltip = null;
+        this.attemptCount = 0;
 
         this.initializeDynamicCategories();
         this.initializeEventListeners();
+        this.updateAttemptCounter();
         this.showMessage('¡Nuevo juego iniciado! Adivina el número secreto.', 'info');
     }
 
@@ -197,6 +199,10 @@ class NumberGuessingGame {
             this.showMessage('Ya probaste ese número', 'warning');
             return;
         }
+
+        // Incrementar contador de intentos
+        this.attemptCount++;
+        this.updateAttemptCounter();
 
         // Buscar categorías compartidas
         const sharedCategories = this.findSharedCategories(guess, this.secretNumber);
@@ -429,6 +435,13 @@ class NumberGuessingGame {
         });
     }
 
+    updateAttemptCounter() {
+        const counterElement = document.getElementById('attemptCounter');
+        if (counterElement) {
+            counterElement.textContent = `Intentos: ${this.attemptCount}`;
+        }
+    }
+
     showMessage(text, type) {
         const messageEl = document.getElementById('message');
         messageEl.textContent = text;
@@ -446,6 +459,7 @@ class NumberGuessingGame {
         this.adjacencyMatrix = {};
         this.gameWon = false;
         this.pinnedTooltip = null;
+        this.attemptCount = 0;
         
         // Limpiar tooltips existentes
         const existingTooltips = document.querySelectorAll('.tooltip');
@@ -457,6 +471,7 @@ class NumberGuessingGame {
         document.getElementById('numberInput').value = '';
         
         this.updateMatrix();
+        this.updateAttemptCounter();
         this.showMessage('¡Nuevo juego iniciado! Adivina el número secreto.', 'info');
     }
 }
