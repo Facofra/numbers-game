@@ -68,18 +68,24 @@ class NumberGuessingGame {
             'Natural': 'Números enteros positivos (1, 2, 3, 4, ...).<br><br>Ejemplo: 95 → es un número entero positivo',
         };
 
-        this.secretNumber = this.generateSecretNumber();
+        this.gameState = 'selecting'; // 'selecting', 'playing', 'won', 'lost'
+        this.difficulty = null; // 'easy' or 'hard'
+        this.secretNumber = null;
         this.guessedNumbers = [];
         this.adjacencyMatrix = {};
         this.gameWon = false;
+        this.gameLost = false;
         this.pinnedTooltip = null;
         this.attemptCount = 0;
-        this.maxAttempts = 10;
+        this.maxAttempts = 0;
 
-        this.initializeDynamicCategories();
+        this.difficultyDescriptions = {
+            'easy': '• Límite: 10 intentos<br>• Todas las funcionalidades activadas',
+            'hard': '• Límite: 20 intentos<br>• Todas las funcionalidades activadas'
+        };
+
         this.initializeEventListeners();
-        this.updateAttemptCounter();
-        this.showMessage('¡Nuevo juego iniciado! Adivina el número secreto.', 'info');
+        this.initializeDifficultyTooltips();
     }
 
     generateSecretNumber() {
@@ -168,18 +174,134 @@ class NumberGuessingGame {
     }
 
     initializeEventListeners() {
+        const startGameBtn = document.getElementById('startGameBtn');
+        const stopBtn = document.getElementById('stopBtn');
         const numberInput = document.getElementById('numberInput');
         const guessBtn = document.getElementById('guessBtn');
-        const resetBtn = document.getElementById('resetBtn');
 
-        guessBtn.addEventListener('click', () => this.makeGuess());
-        resetBtn.addEventListener('click', () => this.resetGame());
+        if (startGameBtn) startGameBtn.addEventListener('click', () => this.startGame());
+        if (stopBtn) stopBtn.addEventListener('click', () => this.stopGame());
+        if (guessBtn) guessBtn.addEventListener('click', () => this.makeGuess());
         
-        numberInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.makeGuess();
-            }
+        if (numberInput) {
+            numberInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    this.makeGuess();
+                }
+            });
+        }
+    }
+
+    initializeDifficultyTooltips() {
+        const difficultyInfoIcons = document.querySelectorAll('.difficulty-selection .info-icon');
+        
+        difficultyInfoIcons.forEach(icon => {
+            const difficulty = icon.dataset.difficulty;
+            const description = this.difficultyDescriptions[difficulty] || 'Descripción no disponible';
+            
+            const tooltipElement = document.createElement('div');
+            tooltipElement.className = 'tooltip';
+            tooltipElement.id = `tooltip-difficulty-${difficulty}`;
+            tooltipElement.innerHTML = `<div class="tooltip-content">${description}</div>`;
+            document.body.appendChild(tooltipElement);
+            
+            this.setupDifficultyTooltip(icon, tooltipElement);
         });
+    }
+
+    setupDifficultyTooltip(icon, tooltip) {
+        const positionTooltip = () => {
+            const iconRect = icon.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+            
+            let left = iconRect.right + 10;
+            let top = iconRect.top + (iconRect.height / 2) - (tooltipRect.height / 2);
+            
+            if (left + tooltipRect.width > viewportWidth - 20) {
+                left = iconRect.left - tooltipRect.width - 10;
+            }
+            
+            tooltip.style.left = `${left}px`;
+            tooltip.style.top = `${top}px`;
+        };
+        
+        icon.addEventListener('mouseenter', () => {
+            tooltip.classList.add('show');
+            positionTooltip();
+        });
+        
+        icon.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('show');
+        });
+    }
+
+    startGame() {
+        const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked')?.value || 'easy';
+        this.difficulty = selectedDifficulty;
+        this.maxAttempts = selectedDifficulty === 'easy' ? 10 : 20;
+        this.gameState = 'playing';
+        this.attemptCount = 0;
+        this.secretNumber = this.generateSecretNumber();
+        this.guessedNumbers = [];
+        this.adjacencyMatrix = {};
+        this.gameWon = false;
+        this.gameLost = false;
+        
+        // Ocultar selección de dificultad y mostrar controles del juego
+        const difficultySelection = document.getElementById('difficultySelection');
+        const gameControls = document.getElementById('gameControls');
+        if (difficultySelection) difficultySelection.style.display = 'none';
+        if (gameControls) gameControls.style.display = 'block';
+        
+        this.initializeDynamicCategories();
+        this.updateAttemptCounter();
+        this.updateDifficultyInfo();
+        this.updateGameStatus();
+        this.updateMatrix();
+        this.showMessage('¡Juego iniciado! Adivina el número secreto.', 'info');
+    }
+
+    stopGame() {
+        this.gameState = 'selecting';
+        this.difficulty = null;
+        this.secretNumber = null;
+        this.guessedNumbers = [];
+        this.adjacencyMatrix = {};
+        this.gameWon = false;
+        this.gameLost = false;
+        this.attemptCount = 0;
+        this.maxAttempts = 0;
+        
+        // Limpiar tooltips del juego
+        const gameTooltips = document.querySelectorAll('.tooltip:not([id*="difficulty"])');
+        gameTooltips.forEach(tooltip => tooltip.remove());
+        
+        // Mostrar selección de dificultad y ocultar controles del juego
+        const difficultySelection = document.getElementById('difficultySelection');
+        const gameControls = document.getElementById('gameControls');
+        if (difficultySelection) difficultySelection.style.display = 'block';
+        if (gameControls) gameControls.style.display = 'none';
+        
+        const messageEl = document.getElementById('message');
+        const numberInput = document.getElementById('numberInput');
+        const matrixContainer = document.getElementById('matrixContainer');
+        if (messageEl) messageEl.style.display = 'none';
+        if (numberInput) numberInput.value = '';
+        if (matrixContainer) matrixContainer.innerHTML = '';
+    }
+
+    updateDifficultyInfo() {
+        const difficultyInfo = document.getElementById('difficultyInfo');
+        if (difficultyInfo && this.difficulty) {
+            if (this.difficulty === 'easy') {
+                difficultyInfo.textContent = 'Modo Fácil';
+                difficultyInfo.className = 'difficulty-info difficulty-easy';
+            } else {
+                difficultyInfo.textContent = 'Modo Difícil';
+                difficultyInfo.className = 'difficulty-info difficulty-hard';
+            }
+        }
     }
 
     makeGuess() {
@@ -190,7 +312,9 @@ class NumberGuessingGame {
 
         if (guess === this.secretNumber) {
             this.gameWon = true;
+            this.gameState = 'won';
             this.updateGameStatus();
+            this.updateDifficultyInfo();
             this.showMessage(`🎉 ¡Felicitaciones! Adivinaste el número ${this.secretNumber}!`, 'success');
             this.updateMatrix();
             input.value = '';
@@ -209,8 +333,10 @@ class NumberGuessingGame {
         // Verificar si se alcanzó el límite de intentos
         if (this.attemptCount >= this.maxAttempts) {
             this.gameLost = true;
+            this.gameState = 'lost';
             this.updateMatrix(); // Revelar el número secreto
             this.updateGameStatus();
+            this.updateDifficultyInfo();
             this.showMessage(`😞 ¡Perdiste! El número secreto era ${this.secretNumber}. Has alcanzado el límite de ${this.maxAttempts} intentos.`, 'warning');
             input.value = '';
             return;
@@ -236,13 +362,14 @@ class NumberGuessingGame {
             return false;
         }
 
-        if (this.gameWon) {
-            this.showMessage('¡Ya ganaste! Usa "Nuevo Juego" para comenzar otra partida', 'info');
-            return false;
-        }
-
-        if (this.gameLost) {
-            this.showMessage('¡Juego terminado! Usa "Nuevo Juego" para comenzar otra partida', 'info');
+        if (this.gameState !== 'playing') {
+            if (this.gameWon) {
+                this.showMessage('¡Ya ganaste! Usa "Detener Juego" para comenzar una nueva partida', 'info');
+            } else if (this.gameLost) {
+                this.showMessage('¡Juego terminado! Usa "Detener Juego" para comenzar una nueva partida', 'info');
+            } else {
+                this.showMessage('Debes iniciar un juego primero', 'warning');
+            }
             return false;
         }
 
@@ -353,7 +480,7 @@ class NumberGuessingGame {
     }
 
     initializeTooltips() {
-        const infoIcons = document.querySelectorAll('.info-icon');
+        const infoIcons = document.querySelectorAll('.matrix-table .info-icon');
         
         // Cerrar tooltip al hacer click fuera
         document.addEventListener('click', (e) => {
@@ -454,8 +581,10 @@ class NumberGuessingGame {
 
     updateAttemptCounter() {
         const counterElement = document.getElementById('attemptCounter');
-        if (counterElement) {
+        if (counterElement && this.maxAttempts > 0) {
             counterElement.textContent = `Intentos: ${this.attemptCount}/${this.maxAttempts}`;
+        } else if (counterElement) {
+            counterElement.textContent = 'Intentos: 0';
         }
     }
 
@@ -486,29 +615,6 @@ class NumberGuessingGame {
         }, 4000);
     }
 
-    resetGame() {
-        this.secretNumber = this.generateSecretNumber();
-        this.guessedNumbers = [];
-        this.adjacencyMatrix = {};
-        this.gameWon = false;
-        this.gameLost = false;
-        this.pinnedTooltip = null;
-        this.attemptCount = 0;
-        
-        // Limpiar tooltips existentes
-        const existingTooltips = document.querySelectorAll('.tooltip');
-        existingTooltips.forEach(tooltip => tooltip.remove());
-        
-        this.initializeDynamicCategories();
-        
-        document.getElementById('message').style.display = 'none';
-        document.getElementById('numberInput').value = '';
-        
-        this.updateMatrix();
-        this.updateAttemptCounter();
-        this.updateGameStatus();
-        this.showMessage('¡Nuevo juego iniciado! Adivina el número secreto.', 'info');
-    }
 }
 
 // Inicializar el juego cuando se carga la página

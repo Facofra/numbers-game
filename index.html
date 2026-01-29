@@ -8,22 +8,41 @@
 </head>
 <body>
     <div class="container">
-        <h1>� Juego de Adivinanza de Números</h1>
-        <p class="subtitle">Adivina el número secreto (1-100) y descubre las categorías que comparten</p>
+        <h1>🔢 Juego de Números</h1>
         
-        <div class="game-controls">
+        <div id="message" class="message" style="display: none;"></div>
+        
+        <!-- Pantalla de selección de dificultad -->
+        <div id="difficultySelection" class="difficulty-selection">
+            <h2>Selecciona la dificultad</h2>
+            <div class="difficulty-options">
+                <div class="difficulty-option">
+                    <input type="radio" id="easyMode" name="difficulty" value="easy" checked>
+                    <label for="easyMode">Modo Fácil</label>
+                    <span class="info-icon" data-difficulty="easy">ℹ️</span>
+                </div>
+                <div class="difficulty-option">
+                    <input type="radio" id="hardMode" name="difficulty" value="hard">
+                    <label for="hardMode">Modo Difícil</label>
+                    <span class="info-icon" data-difficulty="hard">ℹ️</span>
+                </div>
+            </div>
+            <button id="startGameBtn" class="start-game-btn">Iniciar Juego</button>
+        </div>
+        
+        <!-- Controles del juego -->
+        <div id="gameControls" class="game-controls" style="display: none;">
             <div class="input-group">
                 <input type="number" id="numberInput" min="1" max="100" placeholder="Tu número">
                 <button class="btn btn-primary" id="guessBtn">Adivinar</button>
-                <button class="btn btn-secondary" id="resetBtn">Nuevo Juego</button>
+                <button class="btn btn-secondary" id="stopBtn">Detener Juego</button>
             </div>
             <div class="counter-section">
                 <div id="attemptCounter" class="attempt-counter">Intentos: 0</div>
+                <div id="difficultyInfo" class="difficulty-info"></div>
                 <div id="gameStatus" class="game-status"></div>
             </div>
         </div>
-
-        <div id="message" class="message" style="display: none;"></div>
 
         <div class="matrix-container" id="matrixContainer">
             <div class="empty-state">

@@ -64,6 +64,23 @@ h1 {
     color: #667eea;
 }
 
+.difficulty-info {
+    font-size: 0.9em;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+.difficulty-easy {
+    background: #d4edda;
+    color: #155724;
+}
+
+.difficulty-hard {
+    background: #f8d7da;
+    color: #721c24;
+}
+
 .game-status {
     font-size: 1.1rem;
     font-weight: bold;
@@ -81,6 +98,85 @@ h1 {
     color: #28a745;
     background: #d4edda;
     border: 1px solid #28a745;
+}
+
+/* Selección de dificultad */
+.difficulty-selection {
+    text-align: center;
+    margin: 30px 0;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.difficulty-selection h2 {
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.difficulty-options {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.difficulty-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 15px 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.difficulty-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.difficulty-option input[type="radio"] {
+    margin: 0;
+    transform: scale(1.2);
+}
+
+.difficulty-option label {
+    font-weight: 600;
+    cursor: pointer;
+    margin: 0;
+    font-size: 1.1em;
+}
+
+.start-game-btn {
+    padding: 12px 30px;
+    font-size: 1.1em;
+    font-weight: 600;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.start-game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
+}
+
+#stopBtn {
+    background: #dc3545;
+}
+
+#stopBtn:hover {
+    background: #c82333;
 }
 
 #numberInput {
