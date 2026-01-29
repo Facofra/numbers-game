@@ -80,8 +80,8 @@ class NumberGuessingGame {
         this.maxAttempts = 0;
 
         this.difficultyDescriptions = {
-            'easy': '• Límite: 10 intentos<br>• Todas las funcionalidades activadas',
-            'hard': '• Límite: 20 intentos<br>• Todas las funcionalidades activadas'
+            'easy': '• Límite: 5 intentos<br>• Se revelan todas las categorías compartidas<br>• Columnas ordenadas por número (orden ascendente)',
+            'hard': '• Límite: 10 intentos<br>• Solo se revela la categoría con menos elementos, o siguiente que no esté presente<br>• Columna X siempre a la izquierda, nuevos números a la derecha'
         };
 
         this.initializeEventListeners();
@@ -253,7 +253,7 @@ class NumberGuessingGame {
     startGame() {
         const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked')?.value || 'easy';
         this.difficulty = selectedDifficulty;
-        this.maxAttempts = selectedDifficulty === 'easy' ? 10 : 20;
+        this.maxAttempts = selectedDifficulty === 'easy' ? 5 : 10;
         this.gameState = 'playing';
         this.attemptCount = 0;
         this.secretNumber = this.generateSecretNumber();
@@ -320,6 +320,32 @@ class NumberGuessingGame {
         }
     }
 
+    getNextSmallestCategory(sharedCategories) {
+        // Obtener categorías ya mostradas
+        const existingCategories = Object.keys(this.adjacencyMatrix[this.secretNumber] || {});
+        
+        // Filtrar categorías que no están ya mostradas
+        const newCategories = sharedCategories.filter(cat => !existingCategories.includes(cat));
+        
+        if (newCategories.length === 0) {
+            return []; // No hay categorías nuevas para agregar
+        }
+        
+        // Encontrar la categoría con menos elementos
+        let smallestCategory = newCategories[0];
+        let smallestSize = this.categories[smallestCategory].length;
+        
+        for (const category of newCategories) {
+            const size = this.categories[category].length;
+            if (size < smallestSize) {
+                smallestSize = size;
+                smallestCategory = category;
+            }
+        }
+        
+        return [smallestCategory];
+    }
+
     makeGuess() {
         const input = document.getElementById('numberInput');
         const guess = parseInt(input.value);
@@ -363,8 +389,21 @@ class NumberGuessingGame {
         
         if (sharedCategories.length > 0) {
             this.guessedNumbers.push(guess);
-            this.updateAdjacencyMatrix(guess, sharedCategories);
-            this.updateMatrix();
+            
+            // En modo difícil, solo agregar la categoría con menos elementos que no esté ya mostrada
+            let categoriesToAdd = sharedCategories;
+            if (this.difficulty === 'hard') {
+                categoriesToAdd = this.getNextSmallestCategory(sharedCategories);
+            }
+            
+            if (categoriesToAdd.length > 0) {
+                this.updateAdjacencyMatrix(guess, categoriesToAdd);
+                this.updateMatrix();
+            } else {
+                // Si no hay categorías nuevas para agregar, solo actualizar la matriz con las existentes
+                this.updateAdjacencyMatrix(guess, []);
+                this.updateMatrix();
+            }
         } else {
             this.showMessage(`El número ${guess} no comparte categorías con el número secreto`, 'info');
         }
@@ -403,36 +442,39 @@ class NumberGuessingGame {
     }
 
     updateAdjacencyMatrix(guess, sharedCategories) {
-        // Agregar nueva categoría encontrada
+        // Crear entrada para el nuevo guess si no existe
+        if (!this.adjacencyMatrix[guess]) {
+            this.adjacencyMatrix[guess] = {};
+        }
+        
+        // Llenar el guess con todas las categorías existentes
+        for (const existingCategory in this.adjacencyMatrix[this.secretNumber]) {
+            this.adjacencyMatrix[guess][existingCategory] = this.categories[existingCategory].includes(guess);
+        }
+        
+        // Agregar nuevas categorías encontradas
         for (const category of sharedCategories) {
             // Actualizar todas las entradas existentes con esta nueva categoría
             for (const number in this.adjacencyMatrix) {
                 const num = parseInt(number);
                 this.adjacencyMatrix[number][category] = this.categories[category].includes(num);
             }
-
-            // Crear entrada para el nuevo guess
-            if (!this.adjacencyMatrix[guess]) {
-                this.adjacencyMatrix[guess] = {};
-            }
-
-            // Llenar el guess con todas las categorías existentes
-            for (const existingCategory in this.adjacencyMatrix[this.secretNumber]) {
-                this.adjacencyMatrix[guess][existingCategory] = this.categories[existingCategory].includes(guess);
-            }
-
-            // Agregar la nueva categoría al guess
-            this.adjacencyMatrix[guess][category] = true;
         }
 
-        // Ordenar las categorías según el orden original
-        const categoryOrder = Object.keys(this.categories);
+        // Ordenar las categorías por número de elementos (de menor a mayor)
         for (const number in this.adjacencyMatrix) {
+            const existingCategories = Object.keys(this.adjacencyMatrix[number]);
+            
+            // Ordenar categorías por cantidad de elementos
+            const sortedCategoryNames = existingCategories.sort((a, b) => {
+                const sizeA = this.categories[a].length;
+                const sizeB = this.categories[b].length;
+                return sizeA - sizeB; // Orden ascendente: menor a mayor
+            });
+            
             const sortedCategories = {};
-            categoryOrder.forEach(cat => {
-                if (this.adjacencyMatrix[number][cat] !== undefined) {
-                    sortedCategories[cat] = this.adjacencyMatrix[number][cat];
-                }
+            sortedCategoryNames.forEach(cat => {
+                sortedCategories[cat] = this.adjacencyMatrix[number][cat];
             });
             this.adjacencyMatrix[number] = sortedCategories;
         }
@@ -447,8 +489,18 @@ class NumberGuessingGame {
             return;
         }
 
-        const numbers = Object.keys(this.adjacencyMatrix);
+        let numbers = Object.keys(this.adjacencyMatrix);
         const categories = Object.keys(this.adjacencyMatrix[this.secretNumber]);
+
+        // Ordenar números según la dificultad
+        if (this.difficulty === 'easy') {
+            // Modo fácil: ordenar todos los números de menor a mayor (incluyendo el secreto)
+            numbers = numbers.map(n => parseInt(n)).sort((a, b) => a - b).map(n => n.toString());
+        } else if (this.difficulty === 'hard') {
+            // Modo difícil: X siempre a la izquierda, nuevos números a la derecha
+            const otherNumbers = numbers.filter(n => n != this.secretNumber);
+            numbers = [this.secretNumber.toString(), ...otherNumbers];
+        }
 
         let html = '<table class="matrix-table fade-in">';
         
