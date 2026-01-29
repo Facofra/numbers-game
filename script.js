@@ -86,6 +86,73 @@ class NumberGuessingGame {
 
         this.initializeEventListeners();
         this.initializeDifficultyTooltips();
+        this.initializeGlossary();
+    }
+
+    initializeGlossary() {
+        const glossaryBtn = document.getElementById('glossaryBtn');
+        const glossaryModal = document.getElementById('glossaryModal');
+        const glossaryClose = document.querySelector('.glossary-close');
+        
+        // Generar contenido del glosario
+        this.generateGlossaryContent();
+        
+        // Solo usar click para abrir/cerrar (sin hover)
+        glossaryBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            glossaryModal.classList.toggle('show');
+        });
+        
+        // Botón cerrar
+        glossaryClose.addEventListener('click', () => {
+            glossaryModal.classList.remove('show');
+        });
+        
+        // Click fuera del modal para cerrar
+        glossaryModal.addEventListener('click', (e) => {
+            if (e.target === glossaryModal) {
+                glossaryModal.classList.remove('show');
+            }
+        });
+        
+        // Prevenir que clics dentro del contenido cierren el modal
+        document.querySelector('.glossary-content').addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+    
+    generateGlossaryContent() {
+        const glossaryBody = document.getElementById('glossaryBody');
+        let content = '';
+        
+        // Obtener todas las categorías ordenadas por nombre
+        const sortedCategories = Object.keys(this.categories).sort();
+        
+        sortedCategories.forEach(categoryName => {
+            const numbers = this.categories[categoryName];
+            const description = this.categoryDescriptions[categoryName] || 'Descripción no disponible';
+            
+            content += `<div class="glossary-category">`;
+            content += `<div class="glossary-category-title">${categoryName}</div>`;
+            content += `<div class="glossary-category-desc">${description}</div>`;
+            
+            // Manejar categorías dinámicas
+            if (categoryName === 'Divisor') {
+                content += `<div class="glossary-category-numbers"><strong>Ejemplo con número secreto 24:</strong><br>1, 2, 3, 4, 6, 8, 12, 24</div>`;
+            } else if (categoryName === 'Misma raiz digital') {
+                content += `<div class="glossary-category-numbers"><strong>Ejemplo con raíz digital 7:</strong><br>7, 16, 25, 34, 43, 52, 61, 70, 79, 88, 97</div>`;
+            } else if (categoryName === 'Categoria secreta') {
+                content += `<div class="glossary-category-numbers"><strong>Categoría misteriosa:</strong><br>Puede ser una de cuatro opciones secretas que cambia en cada partida. Solo se revela jugando.</div>`;
+            } else {
+                // Categorías normales: mostrar todos los números
+                const numbersText = numbers.join(', ');
+                content += `<div class="glossary-category-numbers"><strong>Números (${numbers.length}):</strong><br>${numbersText}</div>`;
+            }
+            
+            content += `</div>`;
+        });
+        
+        glossaryBody.innerHTML = content;
     }
 
     generateSecretNumber() {
