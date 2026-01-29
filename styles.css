@@ -44,12 +44,24 @@ h1 {
 
 .input-group {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 15px;
     margin-bottom: 20px;
 }
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
 
+.input-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    flex: 1;
+    margin-left: 185px;
+}
 .counter-section {
     display: flex;
     justify-content: center;
@@ -221,6 +233,17 @@ h1 {
 
 .btn-secondary:hover {
     background: #e33042;
+    transform: translateY(-2px);
+}
+
+.btn-tertiary {
+    background: #073673;
+    color: white;
+    margin-left: 10px;
+}
+
+.btn-tertiary:hover {
+    background: #0a4a8a;
     transform: translateY(-2px);
 }
 

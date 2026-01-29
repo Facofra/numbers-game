@@ -176,11 +176,13 @@ class NumberGuessingGame {
     initializeEventListeners() {
         const startGameBtn = document.getElementById('startGameBtn');
         const stopBtn = document.getElementById('stopBtn');
+        const restartBtn = document.getElementById('restartBtn');
         const numberInput = document.getElementById('numberInput');
         const guessBtn = document.getElementById('guessBtn');
 
         if (startGameBtn) startGameBtn.addEventListener('click', () => this.startGame());
         if (stopBtn) stopBtn.addEventListener('click', () => this.stopGame());
+        if (restartBtn) restartBtn.addEventListener('click', () => this.restartGame());
         if (guessBtn) guessBtn.addEventListener('click', () => this.makeGuess());
         
         if (numberInput) {
@@ -310,6 +312,35 @@ class NumberGuessingGame {
         if (numberInput) numberInput.value = '';
     }
 
+    restartGame() {
+        if (this.difficulty) {
+            // Mantener la dificultad actual y reiniciar el juego
+            const currentDifficulty = this.difficulty;
+            this.maxAttempts = currentDifficulty === 'easy' ? 5 : 10;
+            this.gameState = 'playing';
+            this.attemptCount = 0;
+            this.secretNumber = this.generateSecretNumber();
+            this.guessedNumbers = [];
+            this.adjacencyMatrix = {};
+            this.gameWon = false;
+            this.gameLost = false;
+            
+            // Limpiar tooltips del juego anterior
+            const gameTooltips = document.querySelectorAll('.tooltip:not([id*="difficulty"])');
+            gameTooltips.forEach(tooltip => tooltip.remove());
+            
+            this.initializeDynamicCategories();
+            this.updateAttemptCounter();
+            this.updateDifficultyInfo();
+            this.updateGameStatus();
+            this.updateMatrix();
+            this.showMessage('¡Nueva partida iniciada!', 'info');
+            
+            const numberInput = document.getElementById('numberInput');
+            if (numberInput) numberInput.value = '';
+        }
+    }
+
     updateDifficultyInfo() {
         const difficultyInfo = document.getElementById('difficultyInfo');
         if (difficultyInfo && this.difficulty) {
@@ -422,9 +453,9 @@ class NumberGuessingGame {
 
         if (this.gameState !== 'playing') {
             if (this.gameWon) {
-                this.showMessage('¡Ya ganaste! Usa "Detener Juego" para comenzar una nueva partida', 'info');
+                this.showMessage('¡Ya ganaste! Usa "Salir" para volver al menú o "Reiniciar" para otra partida', 'info');
             } else if (this.gameLost) {
-                this.showMessage('¡Juego terminado! Usa "Detener Juego" para comenzar una nueva partida', 'info');
+                this.showMessage('¡Juego terminado! Usa "Salir" para volver al menú o "Reiniciar" para otra partida', 'info');
             } else {
                 this.showMessage('Debes iniciar un juego primero', 'warning');
             }

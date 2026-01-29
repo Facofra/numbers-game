@@ -36,9 +36,14 @@
         <!-- Controles del juego -->
         <div id="gameControls" class="game-controls" style="display: none;">
             <div class="input-group">
-                <input type="number" id="numberInput" min="1" max="100" placeholder="Tu número">
-                <button class="btn btn-primary" id="guessBtn">Adivinar</button>
-                <button class="btn btn-secondary" id="stopBtn">Detener Juego</button>
+                <div class="input-section">
+                    <input type="number" id="numberInput" min="1" max="100" placeholder="Tu número">
+                    <button class="btn btn-primary" id="guessBtn">Adivinar</button>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="restartBtn">Reiniciar</button>
+                    <button class="btn btn-tertiary" id="stopBtn">Salir</button>
+                </div>
             </div>
             <div class="counter-section">
                 <div id="attemptCounter" class="attempt-counter">Intentos: 0</div>
