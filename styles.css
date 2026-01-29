@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Comfortaa', sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     padding: 20px;
@@ -320,6 +320,8 @@ h1 {
 .category-name {
     display: inline-block;
     margin-right: 8px;
+    font-size: 1.1em;
+    font-weight: 500;
 }
 
 .info-icon {
