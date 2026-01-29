@@ -3,6 +3,7 @@ class NumberGuessingGame {
         this.categories = {
     /* ? */    'Divisor': [],
     /* ? */    'Misma raiz digital': [],
+    /* ? */    'Categoria secreta': [],
     /* 2 */    'Perfecto': [6,28],
     /* 4 */    'Cubo perfecto': [1,8,27,64],
     /* 9 */    'Altamente compuesto': [1,2,4,6,12,24,36,48,60],
@@ -36,6 +37,7 @@ class NumberGuessingGame {
         this.categoryDescriptions = {
             'Divisor': 'Números que dividen exactamente al número secreto sin dejar residuo.<br><br>Ejemplo: Si el número secreto fuera 24, entonces 8 es divisor porque 24÷8 = 3',
             'Misma raiz digital': 'Números cuya raíz digital (suma repetida hasta un dígito) sea igual a la del número secreto.<br><br>Ejemplo: 16→1+6=7, 25→2+5=7, 34→3+4=7 (todos tienen raíz digital 7)',
+            'Categoria secreta': '¡Categoría misteriosa que cambia en cada partida! Descubre qué tienen en común estos números...',
             'Perfecto': 'Un número perfecto es igual a la suma de todos sus divisores propios (excluyendo el número mismo).<br><br>Ejemplo: 6 → divisores propios: 1, 2, 3 → suma: 1+2+3 = 6',
             'Cubo perfecto': 'Un número que es el cubo de un entero (n³).<br><br>Ejemplo: 27 → 3³ = 3×3×3 = 27',
             'Altamente compuesto': 'Un número con más divisores que cualquier número positivo menor que él.<br><br>Ejemplo: 12 → tiene 6 divisores (1,2,3,4,6,12), más que cualquier número menor',
@@ -93,6 +95,27 @@ class NumberGuessingGame {
         return num;
     }
 
+    containsSecretDigit(num, secretNum) {
+        const secretDigits = secretNum.toString().split('');
+        const numDigits = num.toString().split('');
+        return secretDigits.some(digit => numDigits.includes(digit));
+    }
+
+    getDigitDifference(num) {
+        const digits = num.toString().split('').map(Number);
+        if (digits.length === 1) return 0;
+        return Math.abs(digits[0] - digits[digits.length - 1]);
+    }
+
+    hasAllEvenDigits(num) {
+        return num.toString().split('').every(digit => parseInt(digit) % 2 === 0);
+    }
+
+    hasAllOddDigits(num) {
+        return num.toString().split('').every(digit => parseInt(digit) % 2 === 1);
+    }
+
+
     initializeDynamicCategories() {
         // Inicializar divisores
         this.categories.Divisor = [];
@@ -108,6 +131,33 @@ class NumberGuessingGame {
         for (let n = 1; n <= 100; n++) {
             if (this.calculateDigitalRoot(n) === secretRoot) {
                 this.categories['Misma raiz digital'].push(n);
+            }
+        }
+
+        // Inicializar categoría secreta (elegir aleatoriamente entre 4 opciones)
+        const secretCategoryType = Math.floor(Math.random() * 4);
+        this.categories['Categoria secreta'] = [];
+        
+        for (let n = 1; n <= 100; n++) {
+            let belongs = false;
+            
+            switch (secretCategoryType) {
+                case 0: // Contiene dígito del secreto
+                    belongs = this.containsSecretDigit(n, this.secretNumber);
+                    break;
+                case 1: // Diferencia de dígitos igual
+                    belongs = this.getDigitDifference(n) === this.getDigitDifference(this.secretNumber);
+                    break;
+                case 2: // Solo dígitos pares
+                    belongs = this.hasAllEvenDigits(n);
+                    break;
+                case 3: // Solo dígitos impares
+                    belongs = this.hasAllOddDigits(n);
+                    break;
+            }
+            
+            if (belongs) {
+                this.categories['Categoria secreta'].push(n);
             }
         }
 
