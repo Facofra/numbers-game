@@ -644,7 +644,13 @@ class NumberGuessingGame {
             numbers = [this.secretNumber.toString(), ...otherNumbers];
         }
 
-        let html = '<table class="matrix-table fade-in">';
+        // Calcular ancho dinámico basado en número de columnas
+        const baseWidth = 200; // Ancho mínimo para la columna de categorías
+        const columnWidth = 80; // Ancho por cada columna de número
+        const tableWidth = baseWidth + (numbers.length * columnWidth);
+        const maxWidth = Math.min(tableWidth, 1200); // Límite máximo
+
+        let html = `<table class="matrix-table fade-in" style="width: ${maxWidth}px; min-width: ${Math.min(tableWidth, 400)}px;">`;
         
         // Header
         html += '<thead><tr><th>Categoría</th>';

@@ -416,30 +416,41 @@ h1 {
     border: 2px solid #e8eaf4;
     border-radius: 15px;
     padding: 20px;
-    background: #e8eaf4;
+    background: linear-gradient(135deg, #e8eaf4 0%, #f5f7ff 100%);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
 }
 
 .matrix-table {
-    width: 100%;
-    border-collapse: collapse;
+    width: auto;
+    min-width: 300px;
+    max-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 14px;
     background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    transition: all 0.3s ease;
 }
 
 .matrix-table th {
-    background: #eb3b4c;
+    background: linear-gradient(135deg, #eb3b4c 0%, #e33042 100%);
     color: white;
-    padding: 12px 8px;
+    padding: 15px 12px;
     text-align: center;
     font-weight: bold;
-    border: 1px solid #e33042;
+    border: none;
     position: sticky;
     top: 0;
     z-index: 10;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.1);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .matrix-table th:first-child {
-    background: #073673;
+    background: linear-gradient(135deg, #073673 0%, #0a4a8a 100%);
     position: sticky;
     left: 0;
     z-index: 11;
@@ -447,26 +458,51 @@ h1 {
     text-align: left;
     padding-left: 15px;
     font-size: 20px;
+    border-top-left-radius: 12px;
+}
+
+.matrix-table th:last-child {
+    border-top-right-radius: 12px;
 }
 
 .matrix-table td {
-    padding: 10px 8px;
+    padding: 12px 10px;
     text-align: center;
-    border: 1px solid #e8eaf4;
+    border: 1px solid #f0f2f5;
     font-size: 16px;
+    background: white;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.matrix-table td:hover {
+    background: #f8f9ff;
+    transform: scale(1.02);
 }
 
 .matrix-table td:first-child {
-    background: #e8eaf4;
+    background: linear-gradient(135deg, #e8eaf4 0%, #f0f2ff 100%);
     font-weight: bold;
     text-align: left;
     padding-left: 15px;
     position: sticky;
     left: 0;
     z-index: 9;
-    border-right: 2px solid #eb3b4c;
-    position: relative;
+    border-right: 3px solid #eb3b4c;
     min-width: 180px;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+}
+
+.matrix-table td:first-child:hover {
+    background: linear-gradient(135deg, #dde0f0 0%, #e8eaff 100%);
+}
+
+.matrix-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 12px;
+}
+
+.matrix-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 12px;
 }
 
 .category-name {
@@ -533,24 +569,57 @@ h1 {
 
 .matrix-table .check-mark {
     color: #073673;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    display: inline-block;
+    animation: checkPulse 0.3s ease-in-out;
 }
 
 .matrix-table .cross-mark {
     color: #a80212;
-    font-size: 16px;
+    font-size: 18px;
+    opacity: 0.6;
+    font-weight: bold;
+}
+
+@keyframes checkPulse {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.matrix-table.fade-in {
+    animation: fadeIn 0.5s ease-out;
 }
 
 .matrix-table .secret-number {
-    background: #bdc8f0;
+    background: linear-gradient(135deg, #bdc8f0 0%, #a8b5e8 100%);
     font-weight: bold;
     color: #073673;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    border: 2px solid #9bb0e0;
+}
+
+.matrix-table .secret-number:hover {
+    background: linear-gradient(135deg, #a8b5e8 0%, #95a4e0 100%);
+    transform: scale(1.05);
 }
 
 .matrix-table .guessed-number {
-    background: #e8eaf4;
+    background: linear-gradient(135deg, #e8eaf4 0%, #dde0f0 100%);
     color: #073673;
+    border: 1px solid #d0d4e3;
+}
+
+.matrix-table .guessed-number:hover {
+    background: linear-gradient(135deg, #dde0f0 0%, #d0d4e8 100%);
+    border-color: #bdc8f0;
 }
 
 .empty-state {
