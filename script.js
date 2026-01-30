@@ -253,6 +253,47 @@ class NumberGuessingGame {
         if (guessBtn) guessBtn.addEventListener('click', () => this.makeGuess());
         
         if (numberInput) {
+            // Prevenir caracteres no numéricos
+            numberInput.addEventListener('keydown', (e) => {
+                // Permitir: backspace, delete, tab, escape, enter, home, end, left, right
+                if ([8, 9, 27, 13, 46, 35, 36, 37, 39].indexOf(e.keyCode) !== -1 ||
+                    // Permitir Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                    (e.keyCode === 65 && e.ctrlKey === true) ||
+                    (e.keyCode === 67 && e.ctrlKey === true) ||
+                    (e.keyCode === 86 && e.ctrlKey === true) ||
+                    (e.keyCode === 88 && e.ctrlKey === true)) {
+                    return;
+                }
+                // Prevenir todo lo que no sean números (0-9)
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+            
+            // Validar valor en tiempo real
+            numberInput.addEventListener('input', (e) => {
+                let value = parseInt(e.target.value);
+                if (value > 100) {
+                    e.target.value = '100';
+                } else if (value < 0) {
+                    e.target.value = '';
+                }
+            });
+            
+            // Prevenir pegar contenido no numérico
+            numberInput.addEventListener('paste', (e) => {
+                e.preventDefault();
+                let paste = (e.clipboardData || window.clipboardData).getData('text');
+                // Solo permitir números
+                paste = paste.replace(/[^0-9]/g, '');
+                if (paste) {
+                    let value = parseInt(paste);
+                    if (value <= 100 && value >= 1) {
+                        e.target.value = value.toString();
+                    }
+                }
+            });
+            
             numberInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     this.makeGuess();
