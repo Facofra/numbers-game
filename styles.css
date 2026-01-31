@@ -488,7 +488,7 @@ h1 {
     position: sticky;
     left: 0;
     z-index: 9;
-    border-right: 3px solid #eb3b4c;
+    border-right: 3px solid #0a4a8a;
     min-width: 180px;
     box-shadow: 2px 0 10px rgba(0,0,0,0.05);
 }
