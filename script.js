@@ -372,11 +372,13 @@ class NumberGuessingGame {
         this.gameWon = false;
         this.gameLost = false;
         
-        // Ocultar selección de dificultad y mostrar controles del juego
+        // Ocultar selección de dificultad y descripción, mostrar controles del juego
         const difficultySelection = document.getElementById('difficultySelection');
+        const gameDescription = document.querySelector('.game-description');
         const gameControls = document.getElementById('gameControls');
         const matrixContainer = document.getElementById('matrixContainer');
         if (difficultySelection) difficultySelection.style.display = 'none';
+        if (gameDescription) gameDescription.style.display = 'none';
         if (gameControls) gameControls.style.display = 'block';
         if (matrixContainer) matrixContainer.style.display = 'block';
         
@@ -403,11 +405,13 @@ class NumberGuessingGame {
         const gameTooltips = document.querySelectorAll('.tooltip:not([id*="difficulty"])');
         gameTooltips.forEach(tooltip => tooltip.remove());
         
-        // Mostrar selección de dificultad y ocultar controles del juego
+        // Mostrar selección de dificultad y descripción, ocultar controles del juego
         const difficultySelection = document.getElementById('difficultySelection');
+        const gameDescription = document.querySelector('.game-description');
         const gameControls = document.getElementById('gameControls');
         const matrixContainer = document.getElementById('matrixContainer');
         if (difficultySelection) difficultySelection.style.display = 'block';
+        if (gameDescription) gameDescription.style.display = 'block';
         if (gameControls) gameControls.style.display = 'none';
         if (matrixContainer) matrixContainer.style.display = 'none';
         
