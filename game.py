@@ -29,7 +29,6 @@ categorias = {
     'deficiente'          : [1,2,3,4,5,7,8,9,10,11,13,14,15,16,17,19,21,22,23,25,26,27,29,31,32,33,34,35,37,38,39,41,43,44,45,46,47,49,50,51,52,53,55,57,58,59,61,62,63,64,65,67,68,69,71,73,74,75,76,77,79,81,82,83,85,86,87,89,91,92,93,94,95,97,98,99],
     'natural'             : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100],
 }
-# mismo cuadrante 12 arriba 12 abajo. o lo que de
 
 
 def print_matrix(matriz,secreto):
@@ -66,13 +65,366 @@ def print_matrix(matriz,secreto):
 
     print()
 
+def es_primo(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def get_divisores(n):
+    # Incluye n
+    divisores = set()
+    i = 1
+    while i * i <= n:
+        if n % i == 0:
+            divisores.add(i)
+            divisores.add(n // i)
+        i += 1
+    return sorted(list(divisores))
+
+def get_Misma_raiz_digital(k,n):
+    # Números cuya raíz digital (suma repetida hasta un dígito) sea igual a la del número secreto.
+    # Ejemplo: 16→1+6=7, 25→2+5=7, 97→9+7=16→1+6=7  (todos tienen raíz digital 7)
+    
+    def raiz_digital(num):
+        while num >= 10:
+            num = sum(int(digit) for digit in str(num))
+        return num
+    
+    raiz_secreto = raiz_digital(n)
+    misma_raiz = []
+    
+    for i in range(1, k + 1):
+        if raiz_digital(i) == raiz_secreto:
+            misma_raiz.append(i)
+    
+    return misma_raiz
+
+def get_Perfecto(k):
+    # nunca voy a usar k tan grande
+    return [i for i in [6, 28, 496, 8128,33550336] if i <= k]
+    
+def get_Cubo_perfecto(k):
+
+    Cubo_perfecto = []
+    for i in range(1,k):
+        if i**3 > k:
+            return Cubo_perfecto
+        Cubo_perfecto.append(i**3)
+        
+def get_Altamente_compuesto(k):
+
+    max_divisores=0
+    Altamente_compuestos=[]
+    for i in range(1,k+1):
+        cantidad_divisores =  len(get_divisores(i))
+        if cantidad_divisores > max_divisores:
+            Altamente_compuestos.append(i)
+            max_divisores = cantidad_divisores
+
+    return Altamente_compuestos
+
+def get_Pronico(k):
+    
+    pronico = []
+    for i in range(1,k+1):
+        next = i+1
+        muliplication = i*next
+        if muliplication > k:
+            return pronico
+        pronico.append(i * next)
+
+def get_Fibonacci(k):
+    fibonacci = [1,2]
+    for i in range(1,k+1):
+        suma = fibonacci[i] + fibonacci[i-1]
+        if suma > k:
+            return fibonacci
+        fibonacci.append(suma)
+
+def get_Cuadrado_perfecto(k):
+    Cuadrado_perfecto = []
+    for i in range(1,k):
+        if i**2 > k:
+            return Cuadrado_perfecto
+        Cuadrado_perfecto.append(i**2)
+
+def get_Multiplo_de_9(k):
+    multiplos = []
+
+    i = 1
+    while i*9 <= k:
+        multiplos.append(i*9)
+        i+=1
+
+    return multiplos
+
+def get_Multiplo_de_8(k):
+    multiplos = []
+
+    i = 1
+    while i*8 <= k:
+        multiplos.append(i*8)
+        i+=1
+
+    return multiplos
+
+def get_Triangular(k):
+    triangular = [1]
+    for i in range(2,k):
+        suma = i + triangular[i-2]
+        if suma > k:
+            return triangular
+        triangular.append(suma)
+
+def get_Multiplo_de_7(k):
+    multiplos = []
+
+    i = 1
+    while i*7 <= k:
+        multiplos.append(i*7)
+        i+=1
+
+    return multiplos
+
+def get_Multiplo_de_6(k):
+    multiplos = []
+
+    i = 1
+    while i*6 <= k:
+        multiplos.append(i*6)
+        i+=1
+
+    return multiplos
+
+def get_Palindrome(k):
+
+    palindromes = []
+    for num in range(1, k + 1):
+        str_num = str(num)
+        # Verificar si es palíndromo comparando con su reverso
+        if str_num == str_num[::-1]:
+            palindromes.append(num)
+    return palindromes
+
+def get_Numero_feliz(k):
+    # Un número que eventualmente llega a 1 cuando se reemplaza repetidamente por la suma de los cuadrados de sus dígitos.
+    # Ejemplo: 19 → 1²+9²=82 → 8²+2²=68 → 6²+8²=100 → 1²+0²+0²=1
+    
+    def es_numero_feliz(num):
+        seen = set()
+        while num != 1 and num not in seen:
+            seen.add(num)
+            num = sum(int(digit) ** 2 for digit in str(num))
+        return num == 1
+
+    numeros_felices = []
+    for i in range(1, k + 1):
+        if es_numero_feliz(i):
+            numeros_felices.append(i)
+
+    return numeros_felices
+
+def get_Multiplo_de_5(k):
+    multiplos = []
+
+    i = 1
+    while i*5 <= k:
+        multiplos.append(i*5)
+        i+=1
+
+    return multiplos
+
+def get_Abundante(k):
+    # Un número menor que la suma de todos sus divisores propios.
+    # Ejemplo: 18 → divisores propios: 1,2,3,6,9 → suma: 21 > 18
+    abundantes = []
+    for i in range(1,k+1):
+        suma = sum(get_divisores(i)) - i
+        if i < suma:
+            abundantes.append(i)
+    return abundantes    
+
+def get_Harshad(k):
+    # Un número divisible por la suma de sus dígitos.
+    # Ejemplo: 84 → suma de dígitos: 8+4=12 → 84÷12 = 7 (exacto)
+    harshad = []
+    for i in range(1, k + 1):
+        suma_digitos = sum(int(digit) for digit in str(i))
+        if i % suma_digitos == 0:
+            harshad.append(i)
+    return harshad
+
+def get_Primo(k):
+    primos = []
+    for i in range(2, k + 1):
+        es_primo = True
+        for j in range(2, int(i ** 0.5) + 1):
+            if i % j == 0:
+                es_primo = False
+                break
+        if es_primo:
+            primos.append(i)
+    return primos
+
+def get_Multiplo_de_4(k):
+    multiplos = []
+
+    i = 1
+    while i*4 <= k:
+        multiplos.append(i*4)
+        i+=1
+
+    return multiplos
+
+def get_Multiplo_de_3(k):
+    multiplos = []
+
+    i = 1
+    while i*3 <= k:
+        multiplos.append(i*3)
+        i+=1
+
+    return multiplos
+
+def get_Numero_regular(k):
+    # Un número cuyos únicos factores primos son 2, 3 y 5.
+    # Ejemplo: 48 → 48 = 2⁴×3¹ (solo factores 2 y 3)
+    regulares = []
+    for i in range(1, k + 1):
+        num = i
+        # Dividir por 2, 3 y 5 mientras sea posible
+        while num % 2 == 0:
+            num //= 2
+        while num % 3 == 0:
+            num //= 3
+        while num % 5 == 0:
+            num //= 5
+        # Si queda 1, significa que solo tenía factores 2, 3 y 5
+        if num == 1:
+            regulares.append(i)
+    return regulares
+
+def get_Semi_primo(k,primos):
+    # Un número que es el producto de exactamente dos números primos (no necesariamente distintos).
+    # Ejemplo: 35 → 5×7 = 35 (producto de dos primos)
+    semi_primos = []
+    
+    for i in range(1, k + 1):
+        # Contar factores primos (con repetición)
+        factor_count = 0
+        num = i
+        
+        for primo in primos:
+            if primo * primo > num:
+                break
+            while num % primo == 0:
+                factor_count += 1
+                num //= primo
+        
+        # Si queda un número > 1, es un factor primo
+        if num > 1:
+            factor_count += 1
+        
+        # Si tiene exactamente 2 factores primos, es semi-primo
+        if factor_count == 2:
+            semi_primos.append(i)
+    
+    return semi_primos
+
+def get_Suma_de_digitos_prima(k):
+    # Números cuya suma de dígitos es primo.
+    # Ejemplo: 29 → 2+9=11 (primo), 38 → 3+8=11 (primo)
+    Suma_de_digitos_prima = []
+    for i in range(1,k+1):
+        suma_digitos = sum(int(digit) for digit in str(i))
+        if es_primo(suma_digitos):
+            Suma_de_digitos_prima.append(i)
+
+    return Suma_de_digitos_prima
+
+def get_Dígitos_ascendentes(k):
+    # Los dígitos van en orden creciente.
+    # Ejemplo: 12, 18, 27, 34
+    digitos_ascendentes = []
+    for i in range(1,k+1):
+        num_str = str(i)
+        if [n for n in num_str] == sorted(num_str) and len(set(num_str)) == len(num_str):
+            digitos_ascendentes.append(i)
+    return digitos_ascendentes
+
+def get_Par(k):
+    multiplos = []
+
+    i = 1
+    while i*2 <= k:
+        multiplos.append(i*2)
+        i+=1
+
+    return multiplos
+
+def get_Impar(k,pares):
+    return [i for i in range(1,k+1) if i not in pares]
+
+def get_Compuesto(k,primos):
+    return [i for i in range(2,k+1) if i not in primos]
+
+def get_Deficiente(k):
+    deficientes = []
+    for i in range(1,k+1):
+        suma = sum(get_divisores(i)) - i
+        if i > suma:
+            deficientes.append(i)
+    return deficientes    
+
+def get_Natural(k):
+    return [i for i in range(1,k+1)]
 
 
-secreto = random.randint(1,100)
-categorias['divisor'] = [n for n in range(1,101) if secreto % n == 0]
+k = 100
 
 
-jugando = True
+
+secreto = random.randint(1,k)
+
+# categories = {
+#     'Divisor': get_divisores(secreto),
+#     'Misma raiz digital': get_Misma_raiz_digital(k,secreto),
+#     # 'Categoria secreta': get_Categoria secreta(k),
+#     'Perfecto': get_Perfecto(k),
+#     'Cubo perfecto': get_Cubo_perfecto(k),
+#     'Altamente compuesto': get_Altamente_compuesto(k),
+#     'Prónico': get_Pronico(k),
+#     'Fibonacci': get_Fibonacci(k),
+#     'Cuadrado perfecto': get_Cuadrado_perfecto(k),
+#     'Multiplo de 9': get_Multiplo_de_9(k),
+#     'Multiplo de 8': get_Multiplo_de_8(k),
+#     'Triangular': get_Triangular(k),
+#     'Multiplo de 7': get_Multiplo_de_7(k),
+#     'Multiplo de 6': get_Multiplo_de_6(k),
+#     'Palindrome': get_Palindrome(k),
+#     'Numero feliz': get_Numero_feliz(k),
+#     'Multiplo de 5': get_Multiplo_de_5(k),
+#     'Abundante': get_Abundante(k),
+#     'Harshad': get_Harshad(k),
+#     'Primo': get_Primo(k),
+#     'Multiplo de 4': get_Multiplo_de_4(k),
+#     'Multiplo de 3': get_Multiplo_de_3(k),
+#     'Numero regular': get_Numero_regular(k),
+#     # 'Semi primo': get_Semi_primo(k),
+#     'Suma de digitos prima': get_Suma_de_digitos_prima(k),
+#     'Dígitos ascendentes': get_Dígitos_ascendentes(k),
+#     'Par': get_Par(k),
+#     # 'Impar': get_Impar(k),
+#     # 'Compuesto': get_Compuesto(k),
+#     'Deficiente': get_Deficiente(k),
+#     'Natural': get_Natural(k)
+# }
+
+
+jugando = False
 matriz_adjacencia = {
     secreto : {}
 }
