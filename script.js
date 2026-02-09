@@ -156,6 +156,7 @@ class NumberGuessingGame {
     }
 
     generateSecretNumber() {
+        // return 42; // for debugging
         return Math.floor(Math.random() * 100) + 1;
     }
 
@@ -503,6 +504,7 @@ class NumberGuessingGame {
             this.gameState = 'won';
             this.updateGameStatus();
             this.updateDifficultyInfo();
+            this.showVictoryBanner();
             this.showMessage(`🎉 ¡Felicitaciones! Adivinaste el número ${this.secretNumber}!`, 'success');
             this.updateMatrix();
             input.value = '';
@@ -833,6 +835,18 @@ class NumberGuessingGame {
             messageEl.className = 'message message-hidden';
             messageEl.innerHTML = '&nbsp;';
         }, 4000);
+    }
+
+    showVictoryBanner() {
+        const banner = document.getElementById('victoryBanner');
+        if (banner) {
+            banner.classList.add('show');
+            
+            // Quitar la animación después de 4 segundos
+            setTimeout(() => {
+                banner.classList.remove('show');
+            }, 4000);
+        }
     }
 
 }
