@@ -671,7 +671,7 @@ class NumberGuessingGame {
         html += '<tbody>';
         categories.forEach(category => {
             const description = this.categoryDescriptions[category] || 'Descripción no disponible';
-            html += `<tr><td>
+            html += `<tr><td class="category-cell">
                 <span class="category-name">${category}</span>
                 <span class="info-icon" data-category="${category}" data-description="${description.replace(/"/g, '&quot;')}">ℹ️</span>
             </td>`;
