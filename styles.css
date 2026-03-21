@@ -352,7 +352,7 @@ h1 {
 
 #numberInput:focus {
     outline: none;
-    border-color: #eb3b4c;
+    border-color: #073673;
 }
 
 .btn {
@@ -365,12 +365,12 @@ h1 {
 }
 
 .btn-primary {
-    background: #eb3b4c;
+    background: #073673;
     color: white;
 }
 
 .btn-primary:hover {
-    background: #e33042;
+    background: #0a4a8a;
     transform: translateY(-2px);
 }
 
@@ -961,6 +961,10 @@ h1 {
     .input-section {
         flex-direction: column;
         width: 100%;
+    }
+
+    .input-group {
+        flex-direction: column-reverse;
     }
 
     #numberInput {
