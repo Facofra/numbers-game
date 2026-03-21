@@ -557,6 +557,7 @@ class NumberGuessingGame {
         }
 
         input.value = '';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     }
 
     isValidGuess(guess) {
