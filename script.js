@@ -156,8 +156,8 @@ class NumberGuessingGame {
     }
 
     generateSecretNumber() {
-        // return 42; // for debugging
-        return Math.floor(Math.random() * 100) + 1;
+        return 42; // for debugging
+        // return Math.floor(Math.random() * 100) + 1;
     }
 
     calculateDigitalRoot(num) {
@@ -499,18 +499,6 @@ class NumberGuessingGame {
 
         if (!this.isValidGuess(guess)) return;
 
-        if (guess === this.secretNumber) {
-            this.gameWon = true;
-            this.gameState = 'won';
-            this.updateGameStatus();
-            this.updateDifficultyInfo();
-            this.showVictoryBanner();
-            this.showMessage(`🎉 ¡Felicitaciones! Adivinaste el número ${this.secretNumber}!`, 'success');
-            this.updateMatrix();
-            input.value = '';
-            return;
-        }
-
         if (this.guessedNumbers.includes(guess)) {
             this.showMessage('Ya probaste ese número', 'warning');
             return;
@@ -520,14 +508,25 @@ class NumberGuessingGame {
         this.attemptCount++;
         this.updateAttemptCounter();
 
+        // Verificar si el jugador adivinó el número secreto
+        if (guess === this.secretNumber) {
+            this.gameWon = true;
+            this.gameState = 'won';
+            this.updateGameStatus();
+            this.updateDifficultyInfo();
+            this.showVictoryBanner();
+            this.showMessage(`🎉 ¡Felicitaciones! Adivinaste el número ${this.secretNumber}!`, 'success',false);
+            input.value = '';
+        }
+
         // Verificar si se alcanzó el límite de intentos
-        if (this.attemptCount >= this.maxAttempts) {
+        if (this.attemptCount >= this.maxAttempts && this.gameWon === false) {
             this.gameLost = true;
             this.gameState = 'lost';
             this.updateMatrix(); // Revelar el número secreto
             this.updateGameStatus();
             this.updateDifficultyInfo();
-            this.showMessage(`😞 ¡Perdiste! El número secreto era ${this.secretNumber}. Has alcanzado el límite de ${this.maxAttempts} intentos.`, 'warning');
+            this.showMessage(`😞 ¡Perdiste! El número secreto era ${this.secretNumber}. Has alcanzado el límite de ${this.maxAttempts} intentos.`, 'warning', false);
             input.value = '';
             return;
         }
@@ -827,15 +826,17 @@ class NumberGuessingGame {
         }
     }
 
-    showMessage(text, type) {
+    showMessage(text, type, temporary = true) {
         const messageEl = document.getElementById('message');
         messageEl.textContent = text;
         messageEl.className = `message ${type} fade-in`;
         
-        setTimeout(() => {
-            messageEl.className = 'message message-hidden';
-            messageEl.innerHTML = '&nbsp;';
-        }, 4000);
+        if (temporary) {
+            setTimeout(() => {
+                messageEl.className = 'message message-hidden';
+                messageEl.innerHTML = '&nbsp;';
+            }, 4000);
+        }
     }
 
     showVictoryBanner() {
