@@ -156,8 +156,8 @@ class NumberGuessingGame {
     }
 
     generateSecretNumber() {
-        return 42; // for debugging
-        // return Math.floor(Math.random() * 100) + 1;
+        // return 42; // for debugging
+        return Math.floor(Math.random() * 100) + 1;
     }
 
     calculateDigitalRoot(num) {
